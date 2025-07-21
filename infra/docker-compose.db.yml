@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  pg-dev:
+    image: postgres:16
+    container_name: pg-server
+    profiles: ["pg-dev"]
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    networks:
+      - adopet-net
+  
+  pg-prod:
+    image: postgres:16
+    container_name: pg-server
+    profiles: ["pg-prod"]
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    networks:
+      - adopet-net
+
+  mariadb-dev:
+    image: mariadb:11
+    container_name: mariadb-server
+    profiles: ["mariadb-dev"]
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - adopet-net
+  
+  mariadb-prod:
+    image: mariadb:11
+    container_name: mariadb-server
+    profiles: ["mariadb-prod"]
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - adopet-net
+
+networks:
+  adopet-net:
+    name: adopet-net
+    driver: bridge
