@@ -27,7 +27,7 @@ case "$ACTION" in
     echo "✅ Banco disponível!"
 
     echo "🟢 Iniciando app $APP_SERVICE..."
-    docker compose -f ../docker-compose.app.yml up -d --build "$APP_SERVICE"
+    docker compose -f ../docker-compose.app.yml up --build "$APP_SERVICE"
     ;;
 
   stop)
