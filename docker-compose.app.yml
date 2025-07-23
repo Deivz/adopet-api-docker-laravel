@@ -54,4 +54,5 @@ services:
 
 networks:
   adopet-net:
+    name: adopet-net
     external: true
