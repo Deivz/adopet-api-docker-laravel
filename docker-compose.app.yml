@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  ### ---------------- DEV ----------------
+  adopet-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: adopet-dev
+    volumes:
+      - ./www/adopet:/var/www
+    ports:
+      - "8080:8000"
+    networks:
+      - adopet-net
+    environment:
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_NAME}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  ### ---------------- PROD ----------------
+  adopet-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: adopet-prod
+    volumes:
+      - ./www/adopet:/var/www
+    networks:
+      - adopet-net
+    environment:
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_NAME}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-prod
+    ports:
+      - "80:80"
+    volumes:
+      - ./www/adopet:/var/www
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - adopet-net
+    depends_on:
+      - adopet-prod
+
+networks:
+  adopet-net:
+    name: adopet-net
+    external: true

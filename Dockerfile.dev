@@ -1,0 +1,28 @@
+FROM php:8.4-alpine
+
+RUN apk add --no-cache \
+    curl \
+    unzip \
+    git \
+    postgresql-dev \
+    libpq \
+    oniguruma-dev \
+    libxml2-dev \
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring xml
+    
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+COPY php.ini /usr/local/etc/php/php.ini
+
+WORKDIR /var/www
+
+COPY . /var/www
+
+EXPOSE 8000
+
+COPY wait-for-services.sh /usr/local/bin/wait-for-services.sh
+
+RUN chmod +x /usr/local/bin/wait-for-services.sh
+
+CMD ["sh", "/usr/local/bin/wait-for-services.sh"]
