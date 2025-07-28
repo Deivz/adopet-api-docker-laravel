@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserFormRequest;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-	public function index(): Collection
+	public function index(): AnonymousResourceCollection
 	{
-		return User::all();
+		return UserResource::collection(User::all());
 	}
 
 	public function store(UserFormRequest $request): JsonResponse
@@ -36,32 +38,36 @@ class UserController extends Controller
 		}
 	}
 
-	public function show(string $uuid): User
+	public function show(string $uuid): UserResource
 	{
 		$user = User::where('uuid', $uuid)->first();
 		if ($user) {
-			return $user;
+			return new UserResource($user);
 		}
 
 		abort(404);
 	}
 
 
-	public function update(Request $request, User $user): JsonResponse
+	public function update(Request $request, string $uuid): JsonResponse
 	{
-		$user = User::find($user->id);
+		$user = User::where('uuid', $uuid)->first();
+		$data = $request->all();
+		$data['password'] = bcrypt($request->password);
 
 		try {
 			if ($user) {
-				DB::transaction(function () use ($user, $request) {
-					$user->update($request->all());
+				DB::transaction(function () use ($user, $data) {
+					$user->update($data);
 				});
 
-				return $user;
+				return response()->json([
+					'success' => 'Usuário atualizado com sucesso',
+				], 200);
 			}
 
 			return response()->json([
-				'errors' => 'Pet não encontrado',
+				'errors' => 'Usuário não encontrado',
 			], 404);
 		} catch (\Throwable $th) {
 			return response()->json([
@@ -70,9 +76,9 @@ class UserController extends Controller
 		}
 	}
 
-	public function destroy(User $user): JsonResponse
+	public function destroy(string $uuid): JsonResponse
 	{
-		$user = User::find($user->id);
+		$user = User::where('uuid', $uuid)->first();
 
 		try {
 			if ($user) {
@@ -82,7 +88,7 @@ class UserController extends Controller
 
 				return response()->json([
 					'message' => 'Usuário excluído com sucesso',
-				], 201);
+				], 204);
 			}
 
 			abort(404);

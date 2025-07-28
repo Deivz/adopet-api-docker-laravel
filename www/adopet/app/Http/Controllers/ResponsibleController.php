@@ -21,7 +21,6 @@ class ResponsibleController extends Controller
     return Responsible::all();
   }
 
-
   public function store(ResponsibleFormRequest $request): JsonResponse
   {
     $docValue = $request->input('document');
@@ -49,7 +48,6 @@ class ResponsibleController extends Controller
     }
   }
 
-
   public function show(string $uuid): ResponsibleResource
   {
     $responsible = Responsible::where('uuid', $uuid)->first();
@@ -60,7 +58,6 @@ class ResponsibleController extends Controller
 
     abort(404);
   }
-
 
   public function update(Request $request, Responsible $responsible): JsonResponse | ResponsibleResource
   {
