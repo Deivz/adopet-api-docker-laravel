@@ -17,8 +17,8 @@ Route::controller(ResponsibleController::class)->group(function() {
     Route::get('/responsaveis', 'index');
     Route::get('/responsaveis/{uuid}', 'show');
     Route::post('/responsaveis', 'store');
-    Route::put('/responsaveis/{responsible}', 'update');
-    Route::delete('/responsaveis/{responsible}', 'destroy');
+    Route::put('/responsaveis/{uuid}', 'update');
+    Route::delete('/responsaveis/{uuid}', 'destroy');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

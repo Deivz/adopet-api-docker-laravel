@@ -24,6 +24,16 @@ class Responsible extends Model
     return $this->hasMany(Pet::class, 'cod_responsible');
   }
 
+  public function person()
+  {
+    return $this->hasOne(Person::class, 'cod_responsible');
+  }
+  
+  public function institution()
+  {
+    return $this->hasOne(Institution::class, 'cod_responsible');
+  }
+
   protected static function boot()
   {
     parent::boot();
