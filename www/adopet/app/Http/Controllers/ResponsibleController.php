@@ -7,12 +7,9 @@ use App\Http\Resources\ResponsibleResource;
 use App\Models\Institution;
 use App\Models\Person;
 use App\Models\Responsible;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 
 class ResponsibleController extends Controller
