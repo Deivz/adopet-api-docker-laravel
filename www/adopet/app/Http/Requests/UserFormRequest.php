@@ -39,13 +39,12 @@ class UserFormRequest extends FormRequest
         'bail',
         'required',
         'max:15',
-        'required_with:password_confirmation|same:password_confirmation',
+        'same:password_confirmation',
         'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/'
       ],
       'password_confirmation' => [
         'bail',
-        'max:15',
-        'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{6,}$/'
+        'required'
       ]
     ];
   }
@@ -61,8 +60,8 @@ class UserFormRequest extends FormRequest
       'password.required' => 'O campo senha é obrigatório.',
       'password.max' => 'O campo senha deve ter no máximo 15 caracteres.',
       'password.regex' => 'O campo senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.',
-      'password.required_with' => 'O campo confirmação de senha é obrigatório.',
-      'password_confirmation.same' => 'O campo confirmação de senha deve ser igual ao campo senha.',
+      'password.same' => 'O campo confirmação de senha deve ser igual ao campo senha.',
+      'password_confirmation.required' => 'O campo confirmação de senha é obrigatório.',
     ];
   }
 

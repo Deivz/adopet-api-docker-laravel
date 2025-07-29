@@ -2,18 +2,28 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class UserRouteTest extends TestCase
 {
-  /**
-   * A basic test example.
-   */
-  public function test_the_application_returns_a_successful_response(): void
+  public function test_validate_user_route_should_show_status_201_and_a_successful_message(): void
   {
-    $response = $this->get('/');
+    DB::beginTransaction();
+    // Arrange
+    $request = [
+      "name" => "Bogobilz",
+      "email" => "bogobilz@hotmail.com",
+      "password" => "@Abc123",
+      "password_confirmation" => "@Abc123",
+    ];
 
-    $response->assertStatus(200);
+    // Act
+    $response = $this->post('/api/usuarios', $request);
+
+    // Assert
+    $response->assertStatus(201);
+    $response->assertJson(["success" => "Usuário cadastrado com sucesso!"]);
+    DB::rollBack();
   }
 }
