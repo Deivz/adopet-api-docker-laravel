@@ -20,7 +20,7 @@ class UserController extends Controller
 
 	public function store(UserFormRequest $request): JsonResponse
 	{
-		$data = $request->all();
+		$data = $request->validated();
 		$data['password'] = bcrypt($request->password);
 
 		try {
@@ -33,7 +33,7 @@ class UserController extends Controller
 			], 201);
 		} catch (\Throwable $th) {
 			return response()->json([
-				'errors' => $th,
+				'errors' => $th->getMessage(),
 			], 500);
 		}
 	}
@@ -49,10 +49,10 @@ class UserController extends Controller
 	}
 
 
-	public function update(Request $request, string $uuid): JsonResponse
+	public function update(UserFormRequest $request, string $uuid): JsonResponse
 	{
 		$user = User::where('uuid', $uuid)->first();
-		$data = $request->all();
+		$data = $request->validated();
 		$data['password'] = bcrypt($request->password);
 
 		try {
@@ -71,7 +71,7 @@ class UserController extends Controller
 			], 404);
 		} catch (\Throwable $th) {
 			return response()->json([
-				'errors' => $th,
+				'errors' => $th->getMessage(),
 			], 500);
 		}
 	}
@@ -94,7 +94,7 @@ class UserController extends Controller
 			abort(404);
 		} catch (\Throwable $th) {
 			return response()->json([
-				'errors' => $th,
+				'errors' => $th->getMessage(),
 			], 500);
 		}
 	}
