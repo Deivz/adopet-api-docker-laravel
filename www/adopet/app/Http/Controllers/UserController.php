@@ -27,7 +27,7 @@ class UserController extends Controller
 			});
 
 			return response()->json([
-				'success' => 'Seu cadastro foi realizado com sucesso!',
+				'success' => 'Usuário cadastrado com sucesso!',
 			], 201);
 		} catch (\Throwable $th) {
 			return response()->json([
