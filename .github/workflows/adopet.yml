@@ -15,6 +15,15 @@ jobs:
       - name: Give exec permission to scripts
         run: chmod +x infra/manage.sh ./*.sh
 
+      - name: Criar .env para Docker
+        run: |
+          echo "DB_USER=adopet" >> .env
+          echo "DB_PASSWORD=adopet123" >> .env
+          echo "DB_NAME=adopet_db" >> .env
+    
+      - name: Create Docker network manually
+        run: docker network create adopet-net || true
+        
       - name: Start Docker containers (DB and App)
         run: |
           cd infra
