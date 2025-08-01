@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Give exec permission to scripts
-        run: chmod +x infra/start.sh ./*.sh
+        run: chmod +x infra/manage.sh ./*.sh
 
       - name: Start Docker containers (DB and App)
         run: |
@@ -36,4 +36,4 @@ jobs:
         if: always()
         run: |
           cd infra
-          ./start.sh stop pg-dev adopet-dev
+          ./manage.sh stop pg-dev adopet-dev
