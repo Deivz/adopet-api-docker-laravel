@@ -17,9 +17,13 @@ jobs:
 
       - name: Criar .env para Docker
         run: |
-          echo "DB_USER=adopet" >> .env
+          cp .env.example .env
+          echo "DB_CONNECTION=pgsql" >> .env
+          echo "DB_HOST=pg-server-dev" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_DATABASE=adopet_db" >> .env
+          echo "DB_USERNAME=adopet" >> .env
           echo "DB_PASSWORD=adopet123" >> .env
-          echo "DB_NAME=adopet_db" >> .env
     
       - name: Create Docker network manually
         run: docker network create adopet-net || true
