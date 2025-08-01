@@ -1,0 +1,39 @@
+name: Adopet Docker CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Give exec permission to scripts
+        run: chmod +x infra/start.sh ./*.sh
+
+      - name: Start Docker containers (DB and App)
+        run: |
+          cd infra
+          ./start.sh start pg-dev adopet-dev &
+          sleep 20
+
+      - name: Wait for Laravel to be ready
+        run: |
+          echo "⏳ Aguardando Laravel na porta 8000..."
+          while ! nc -z localhost 8000; do
+            sleep 1
+          done
+          echo "✅ Laravel disponível!"
+
+      - name: Run tests inside Laravel container
+        run: docker exec adopet-dev php artisan test
+
+      - name: Stop Docker containers
+        if: always()
+        run: |
+          cd infra
+          ./start.sh stop pg-dev adopet-dev
