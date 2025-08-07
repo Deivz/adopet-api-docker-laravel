@@ -36,22 +36,14 @@ class UserController extends Controller
 		}
 	}
 
-	public function show(string $uuid): UserResource | JsonResponse
+	public function show(string $uuid): UserResource
 	{
-		try {
-			$user = User::where('uuid', $uuid)->first();
-			if ($user) {
-				return new UserResource($user);
-			}
-		} catch (\Throwable $th) {
-			return response()->json([
-				'errors' => $th->getMessage(),
-			], 500);
+		$user = User::where('uuid', $uuid)->first();
+		if ($user) {
+			return new UserResource($user);
 		}
 
-		return response()->json([
-			'errors' => 'Usuário não encontrado',
-		], 404);
+		abort(404);
 	}
 
 

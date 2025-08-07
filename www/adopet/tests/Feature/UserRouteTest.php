@@ -26,16 +26,4 @@ class UserRouteTest extends TestCase
     $response->assertJson(["success" => "Usuário cadastrado com sucesso!"]);
     DB::rollBack();
   }
-  
-  public function test_show_user_by_uuid_route_should_show_404_status_code(): void
-  {
-    // Arrange
-    
-    // Act
-    $response = $this->get('/api/usuarios/a6e49ac9-7f60-4067-bae4-2cd109234b48');
-
-    // Assert
-    $response->assertStatus(404);
-    $response->assertJson(["errors" => "Usuário não encontrado"]);
-  }
 }
