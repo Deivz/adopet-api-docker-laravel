@@ -26,11 +26,8 @@ jobs:
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          
-      - name: Give exec permission to scripts
-        run: chmod +x infra/manage.sh ./*.sh
 
-      - name: Set compose.app environment variables
+      - name: Set laravel environment variables
         run: |
           echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> www/adopet/.env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >>  www/adopet/.env
@@ -40,14 +37,16 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> www/adopet/.env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> www/adopet/.env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >>  www/adopet/.env
+          
+      - name: Give exec permission to scripts
+        run: chmod +x infra/manage.sh ./*.sh
     
       - name: Create Docker network manually
         run: docker network create adopet-net || true
         
       - name: Start Docker containers (DB and App)
         run: |
-          cd infra
-          ./manage.sh start pg-dev adopet-dev &
+          ./infra/manage.sh start pg-dev adopet-dev &
           sleep 20
 
       - name: Wait for Laravel to be ready
