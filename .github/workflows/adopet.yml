@@ -36,10 +36,16 @@ jobs:
       - name: Wait for Laravel to be ready
         run: |
           echo "⏳ Aguardando Laravel na porta 8000..."
-          while ! nc -z localhost 8000; do
+          for i in {1..60}; do
+            if curl -s http://localhost:8000 > /dev/null; then
+              echo "✅ Laravel disponível!"
+              exit 0
+            fi
             sleep 1
           done
-          echo "✅ Laravel disponível!"
+          echo "❌ Laravel não iniciou a tempo."
+          docker logs adopet-dev || true
+          exit 1
 
       - name: Run tests inside Laravel container
         run: docker exec adopet-dev php artisan test
