@@ -46,7 +46,8 @@ jobs:
         
       - name: Start Docker containers (DB and App)
         run: |
-          ./infra/manage.sh start pg-dev adopet-dev &
+          cd infra
+          ./manage.sh start pg-dev adopet-dev &
           sleep 20
 
       - name: Wait for Laravel to be ready
