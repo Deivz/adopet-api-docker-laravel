@@ -17,12 +17,24 @@ jobs:
 
       - name: Set environment variables
         run: |
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> infra/.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> infra/.env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> infra/.env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> infra/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> infra/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> infra/.env
           echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
           echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> www/adopet/.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >>  www/adopet/.env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >>  www/adopet/.env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >>  www/adopet/.env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >>  www/adopet/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >>  www/adopet/.env
     
       - name: Create Docker network manually
         run: docker network create adopet-net || true
