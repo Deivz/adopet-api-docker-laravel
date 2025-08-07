@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "⏳ Aguardando Laravel na porta 8080..."
           for i in {1..60}; do
-            if curl -s http://localhost:8080 > /dev/null; then
+            if curl -s http://localhost:8000 > /dev/null; then
               echo "✅ Laravel disponível!"
               exit 0
             fi
