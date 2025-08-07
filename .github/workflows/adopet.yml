@@ -11,28 +11,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Give exec permission to scripts
-        run: chmod +x infra/manage.sh ./*.sh
-
-      - name: Set environment variables
+    
+      - name: Set compose.db environment variables
         run: |
-          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> infra/.env
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> infra/.env
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> infra/.env
-          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> infra/.env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> infra/.env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> infra/.env
-          echo "DB_NAME=${{ secrets.DB_NAME }}" >> infra/.env
+          echo "DB_USER=${{ secrets.DB_USERNAME }}" >> infra/.env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> infra/.env
+          echo "DB_NAME=${{ secrets.DB_DATABASE }}" >> infra/.env
+
+      - name: Set compose.app environment variables
+        run: |
           echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
-          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          
+      - name: Give exec permission to scripts
+        run: chmod +x infra/manage.sh ./*.sh
+
+      - name: Set compose.app environment variables
+        run: |
           echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> www/adopet/.env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >>  www/adopet/.env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >>  www/adopet/.env
