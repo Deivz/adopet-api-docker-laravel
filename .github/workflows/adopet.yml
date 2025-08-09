@@ -48,12 +48,12 @@ jobs:
         run: |
           cd infra
           ./manage.sh start pg-dev adopet-dev &
-          sleep 60
+          sleep 180
 
       - name: Wait for Laravel to be ready
         run: |
           echo "⏳ Aguardando Laravel na porta 8080..."
-          for i in {1..60}; do
+          for i in {1..20}; do
             if curl -s http://localhost:8080/api/usuarios > /dev/null; then
               echo "✅ Laravel disponível!"
               exit 0
