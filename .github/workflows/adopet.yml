@@ -17,6 +17,9 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USERNAME }}" >> infra/.env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> infra/.env
           echo "DB_NAME=${{ secrets.DB_DATABASE }}" >> infra/.env
+          echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> infra/.env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> infra/.env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> infra/.env
 
       - name: Set compose.app environment variables
         run: |
@@ -48,7 +51,7 @@ jobs:
         run: |
           cd infra
           ./manage.sh start pg-dev adopet-dev &
-          sleep 180
+          sleep 130
 
       - name: Wait for Laravel to be ready
         run: |
